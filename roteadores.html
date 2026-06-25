@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/style/reset.css">
+  <link rel="stylesheet" href="/style/global.css">
+  <link rel="stylesheet" href="/style/header.css">
+  <link rel="stylesheet" href="/style/main.css">
+
+  <title>Visualização da Rota</title>
+</head>
+
+<body>
+  <div id="alerta" class="alerta escondido"></div>
+
+  <header class="head">
+    <img class="osi-img" src="/assets/osi_jpg.jpg" alt="Ícone do Modelo OSI">
+    <p class="title">Camada de Rede - Visualização da Rota</p>
+    <p class="user">Usuário: Samuel8Oliveira</p>
+  </header>
+
+  <main class="main rota-page">
+    <section class="rota-info-card">
+      <h2>Rota Percorrida</h2>
+      <p>
+        Abaixo está a representação visual do caminho percorrido pelo pacote
+        na camada de rede.
+      </p>
+    </section>
+
+    <section class="network-card">
+      <div id="network-map" class="network-map">
+        <svg id="network-lines" class="network-lines"></svg>
+
+        <img
+          id="packet" class="packet-icon escondido" src="/assets/packet.png" alt="Pacote de dados">
+      </div>
+    </section>
+
+    <section class="rota-detalhes-card">
+      <div class="rota-coluna">
+        <h3>Saltos da rota</h3>
+        <ol id="route-list" class="route-list"></ol>
+      </div>
+
+      <div class="rota-coluna">
+        <h3>Objeto da camada de rede</h3>
+        <pre id="network-json" class="network-json"></pre>
+      </div>
+    </section>
+
+    <section class="rota-buttons">
+      <button class="request-btn" id="animar-rota-btn">Animar pacote</button>
+      <button class="request-btn" id="voltar-btn">Voltar</button>
+    </section>
+  </main>
+
+  <script type="module" src="/script/roteadores.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style/reset.css">
+  <link rel="stylesheet" href="./style/global.css">
+  <link rel="stylesheet" href="./style/header.css">
+  <link rel="stylesheet" href="./style/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <title>Modelo OSI</title>
+</head>
+
+<body>
+  <div id="alerta" class="alerta escondido"></div>
+
+  <header class="head">
+    <img class="osi-img" src="./assets/osi_jpg.jpg" alt="Ícone do Modelo OSI">
+    <p class="title">OSI Lab - Simulador de Protocolos</p>
+    <p class="user"></p>
+  </header>
+
+  <main class="main">
+
+    <section class="intro-card">
+      <h2>Simulador da Camada de Aplicação</h2>
+      <p>
+        Digite um e-mail, site, mensagem ou selecione um arquivo.
+        O sistema identifica o protocolo, cria um objeto da camada de aplicação,
+        gera uma sessão e, quando necessário, consulta o DNS.
+      </p>
+    </section>
+
+    <section class="request-wrapper">
+      <input 
+        class="text-input" 
+        type="text" 
+        placeholder="Digite um e-mail, site ou mensagem"
+      >
+
+      <button class="request-btn" id="btn-requisicao">
+        Realizar Requisição
+      </button>
+
+      <input type="file" name="file" id="arquivo">
+    </section>
+
+    <div class="protocol-name-wrapper">
+      <h1 class="protocol-name"></h1>
+    </div>
+
+    <section class="result-card" id="result-card">
+      <div class="result-header">
+        <span class="result-icon">📡</span>
+
+        <div>
+          <h2 id="result-title">Dados da Requisição</h2>
+          <p id="result-subtitle">
+            Informações identificadas na comunicação
+          </p>
+        </div>
+      </div>
+      <div id="resumo-camadas" class="resumo-camadas"></div>
+
+      <details class="json-details">
+        <summary>Ver objeto técnico gerado</summary>
+        <pre id="objeto-preview"></pre>
+      </details>
+    </section>
+
+    <section class="history-card">
+      <div class="history-header">
+        <h2>Histórico de Requisições</h2>
+
+        <button id="limpar-historico" class="small-btn">
+          Limpar histórico
+        </button>
+      </div>
+
+      <ul id="historico-lista"></ul>
+    </section>
+
+    <section class="email-access-card">
+      <p class="request-description">
+        Também é possível simular o preenchimento de um e-mail.
+      </p>
+
+      <button class="request-btn" id="abrir-formulario">
+        Ir para o Formulário de E-mail
+      </button>
+    </section>
+
+    <button class="request-btn" id="abrir-roteadores">
+      Ver rota dos roteadores
+    </button>
+
+  </main>
+
+  <script type="module" src="/script/script.js"></script>
+</body>
+
+</html>
