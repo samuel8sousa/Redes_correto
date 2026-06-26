@@ -187,21 +187,27 @@ function configurarFormularioEmail() {
     const corpoDigitado = document.getElementById('corpo').value;
     const protocoloDigitado = document.getElementById('protocolo').value;
 
-    const email = {
+    const emailCriptografado = {
       camada: 'Aplicação',
       tipo: 'email_formulario',
-      remetente: encriptar(remetenteDigitado, chave),
-      destinatario: encriptar(destinatarioDigitado, chave),
-      assunto: encriptar(assuntoDigitado, chave),
-      corpo: encriptar(corpoDigitado, chave),
       protocolo: protocoloDigitado,
-      criptografia: 'Cifra de César com chave 3',
+      criptografia: {
+        algoritmo: 'Cifra de César',
+        chave: chave,
+        descricao: 'Cada letra do texto é deslocada 3 posições no alfabeto.'
+      },
+      dadosCriptografados: {
+        remetente: encriptar(remetenteDigitado, chave),
+        destinatario: encriptar(destinatarioDigitado, chave),
+        assunto: encriptar(assuntoDigitado, chave),
+        corpo: encriptar(corpoDigitado, chave)
+      },
       timestamp: new Date().toLocaleString('pt-BR')
     };
 
-    emailPreview.textContent = JSON.stringify(email, null, 2);
+    emailPreview.textContent = JSON.stringify(emailCriptografado, null, 2);
 
-    mostrarAlerta('E-mail gerado e criptografado com sucesso!', 'sucesso');
+    mostrarAlerta('Objeto de e-mail criptografado gerado com sucesso!', 'sucesso');
 
     emailForm.reset();
   });
