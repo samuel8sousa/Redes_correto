@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
   carregarUsuario(USER_NAME);
   configurarRequisicao(USER_NAME);
   configurarArquivo(USER_NAME);
-  configurarFormularioEmail();
   configurarNavegacao();
   configurarHistorico();
   renderizarHistorico();
@@ -167,49 +166,6 @@ function configurarArquivo(USER_NAME) {
       console.error(erro);
       mostrarAlerta('Erro ao processar o arquivo.', 'erro');
     }
-  });
-}
-
-function configurarFormularioEmail() {
-  const emailForm = document.getElementById('email-form');
-  const emailPreview = document.getElementById('email-preview');
-
-  if (!emailForm || !emailPreview) return;
-
-  emailForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const chave = 3;
-
-    const remetenteDigitado = document.getElementById('remetente').value;
-    const destinatarioDigitado = document.getElementById('destinatario').value;
-    const assuntoDigitado = document.getElementById('assunto').value;
-    const corpoDigitado = document.getElementById('corpo').value;
-    const protocoloDigitado = document.getElementById('protocolo').value;
-
-    const emailCriptografado = {
-      camada: 'Aplicação',
-      tipo: 'email_formulario',
-      protocolo: protocoloDigitado,
-      criptografia: {
-        algoritmo: 'Cifra de César',
-        chave: chave,
-        descricao: 'Cada letra do texto é deslocada 3 posições no alfabeto.'
-      },
-      dadosCriptografados: {
-        remetente: encriptar(remetenteDigitado, chave),
-        destinatario: encriptar(destinatarioDigitado, chave),
-        assunto: encriptar(assuntoDigitado, chave),
-        corpo: encriptar(corpoDigitado, chave)
-      },
-      timestamp: new Date().toLocaleString('pt-BR')
-    };
-
-    emailPreview.textContent = JSON.stringify(emailCriptografado, null, 2);
-
-    mostrarAlerta('Objeto de e-mail criptografado gerado com sucesso!', 'sucesso');
-
-    emailForm.reset();
   });
 }
 
@@ -430,26 +386,6 @@ function gerarResumoHistorico(camada) {
   return 'Requisição registrada';
 }
 
-function encriptar(texto, chave) {
-  const alfabeto = 'abcdefghijklmnopqrstuvwxyz';
-  let resultado = '';
-
-  texto = texto.toLowerCase();
-
-  for (let i = 0; i < texto.length; i++) {
-    const caractere = texto[i];
-
-    if (alfabeto.includes(caractere)) {
-      const posicaoAtual = alfabeto.indexOf(caractere);
-      const novaPosicao = (posicaoAtual + chave) % alfabeto.length;
-      resultado += alfabeto[novaPosicao];
-    } else {
-      resultado += caractere;
-    }
-  }
-
-  return resultado;
-}
 
 function limparEntradaUsuario(texto) {
   return texto
