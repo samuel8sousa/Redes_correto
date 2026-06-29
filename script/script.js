@@ -4,6 +4,8 @@ import { mostrarAlerta } from './alerts.js';
 import { salvarHistorico, carregarHistorico, limparHistorico } from './storage.js';
 import { criarObjetoTransporte } from './transporte.js';
 import { criarObjetoRede } from './rede.js';
+import { criarFrameEnlace } from './enlace.js';
+import { processarCamadaFisica } from './fisica.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   const USER_NAME = 'Samuel8Oliveira';
@@ -72,12 +74,26 @@ function configurarRequisicao(USER_NAME) {
         camadaDNS
       );
 
+      const dadosParaEnlace = {
+        camadaAplicacao: camadaAplicacao,
+        camadaSessao: camadaSessao,
+        camadaTransporte: camadaTransporte,
+        camadaRede: camadaRede,
+        camadaDNS: camadaDNS
+      };
+
+      const camadaEnlace = criarFrameEnlace(dadosParaEnlace);
+
+      const camadaFisica = processarCamadaFisica(camadaEnlace);
+
       const pacoteFinal = {
         titulo: 'Pacote de comunicação gerado',
         camadaAplicacao: camadaAplicacao,
         camadaSessao: camadaSessao,
         camadaTransporte: camadaTransporte,
         camadaRede: camadaRede,
+        camadaEnlace: camadaEnlace,
+        camadaFisica: camadaFisica,
         camadaDNS: camadaDNS
       };
 
@@ -132,12 +148,26 @@ function configurarArquivo(USER_NAME) {
         null
       );
 
+      const dadosParaEnlace = {
+        camadaAplicacao: camadaAplicacao,
+        camadaSessao: camadaSessao,
+        camadaTransporte: camadaTransporte,
+        camadaRede: camadaRede,
+        camadaDNS: null
+      };
+
+      const camadaEnlace = criarFrameEnlace(dadosParaEnlace);
+
+      const camadaFisica = processarCamadaFisica(camadaEnlace);
+
       const pacoteFinal = {
         titulo: 'Pacote de upload gerado',
         camadaAplicacao: camadaAplicacao,
         camadaSessao: camadaSessao,
         camadaTransporte: camadaTransporte,
         camadaRede: camadaRede,
+        camadaEnlace: camadaEnlace,
+        camadaFisica: camadaFisica,
         camadaDNS: null
       };
 
@@ -229,6 +259,8 @@ function renderizarResultado(dados, titulo, subtitulo) {
     const sessao = dados.camadaSessao;
     const transporte = dados.camadaTransporte;
     const rede = dados.camadaRede;
+    const enlace = dados.camadaEnlace;
+    const fisica = dados.camadaFisica;
     const dns = dados.camadaDNS;
 
     resumoCamadas.appendChild(
@@ -275,6 +307,49 @@ function renderizarResultado(dados, titulo, subtitulo) {
           `Converte o domínio ${dns.dominio} em endereço IP.`
         )
       );
+    }
+    if (enlace) {
+      resumoCamadas.appendChild(
+        criarCardCamada(
+          'Camada de Enlace',
+          `Frame ${enlace.frameId}`,
+          `MAC origem: ${enlace.macOrigem} | MAC destino: ${enlace.macDestino} | CRC: ${enlace.crc.substring(0, 10)}...`
+        )
+      );
+    }
+
+    if (fisica) {
+      resumoCamadas.appendChild(
+        criarCardCamada(
+          'Camada Física',
+          fisica.integridadeOk ? 'Integridade confirmada' : 'Erro de integridade',
+          `Objeto convertido para binário. Total aproximado: ${fisica.binario.length} caracteres binários.`
+        )
+      );
+    }
+    const enlacePreview = document.getElementById('enlace-preview');
+    const fisicaPreview = document.getElementById('fisica-preview');
+    const binarioPreview = document.getElementById('binario-preview');
+
+    if (enlacePreview && dados.camadaEnlace) {
+      enlacePreview.textContent = JSON.stringify(dados.camadaEnlace, null, 2);
+    }
+
+    if (fisicaPreview && dados.camadaFisica) {
+      const fisicaSemBinarioGrande = {
+        camada: dados.camadaFisica.camada,
+        crcRecebido: dados.camadaFisica.crcRecebido,
+        crcCalculado: dados.camadaFisica.crcCalculado,
+        integridadeOk: dados.camadaFisica.integridadeOk,
+        status: dados.camadaFisica.status,
+        descricao: dados.camadaFisica.descricao
+      };
+
+      fisicaPreview.textContent = JSON.stringify(fisicaSemBinarioGrande, null, 2);
+    }
+
+    if (binarioPreview && dados.camadaFisica) {
+      binarioPreview.textContent = dados.camadaFisica.binario;
     }
   }
 

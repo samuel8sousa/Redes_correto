@@ -456,3 +456,34 @@ body{
 .escondido {
   display: none;
 }
+
+
+.transmissao-final-card {
+  margin-top: 1.5rem;
+  background-color: #fff8d6;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  border: 1px solid #e0c878;
+}
+
+.transmissao-final-card h3 {
+  color: #700808;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.transmissao-final-card pre {
+  background-color: #ffffff;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+#binario-preview {
+  max-height: 320px;
+}
